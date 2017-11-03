@@ -1,7 +1,7 @@
 /*
 Bancolombia 2017
  */
-const moment = require('moment'),
+const time = require('../common/time'),
 Cloudant = require('cloudant'),
 cfenv = require('cfenv');
 
@@ -52,7 +52,7 @@ class LogRecord {
       this.metadata = {
           messageId: messageId,
           userId: '',
-          timestamp: moment().utcOffset('-0500').format('YYYY-MM-DDTHH:mm:ss.SS ZZ').toString(), // YYYY-MM-DDTHH:mm:ss.ms
+          timestamp: time.getDateWithTimeZone(), // YYYY-MM-DDTHH:mm:ss.ms
           event: {
               producer: process.env.APP_NAME || producer,
               source: source,
