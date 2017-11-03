@@ -3,8 +3,19 @@
   "version": "1.0.0",
   "description": "Bot sofy controller",
   "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "lint": "eslint ."
+  },
   "license": "MIT",
   "dependencies": {
-    "express": "^4.16.2"
+    "body-parser": "^1.18.2",
+    "cfenv": "^1.0.4",
+    "cloudant": "^1.10.0",
+    "express": "^4.16.2",
+    "helmet": "^3.9.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.10.0"
   }
 }

@@ -1,0 +1,52 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Program",
+      "program": "${workspaceFolder}\\app.js",
+      "env": {
+        "LOCAL": "true",
+        "APP_NAME": "CONTROLLER_BOT",
+        "NO_SIGNATURE": "true",
+        "VCAP_SERVICES": {
+          "user-provided": [{
+            "credentials": { 
+              "cert": { 
+                "app_name": "CONTROLLER_BOT",
+                "public_key": "-----BEGIN CERTIFICATE-----\\\\nMIIF0zCCBXmgAwIBAgIJAMJE4wz/9fpJMAsGCWCGSAFlAwQDAjCBgDELMAkGA1UE\\\\nBhMCQ08xEjAQBgNVBAgTCUFudGlvcXVpYTERMA8GA1UEBxMITWVkZWxsaW4xFDAS\\\\nBgNVBAoTC0JhbmNvbG9tYmlhMQwwCgYDVQQLEwNJTlQxJjAkBgNVBAMTHWJjb2wt\\\\nYm90LWN0ci5iYW5jb2xvbWJpYS5jb3JwMB4XDTE3MDMxNjIxMjQzNFoXDTE4MDMx\\\\nNjIxMjQzNFowgYAxCzAJBgNVBAYTAkNPMRIwEAYDVQQIEwlBbnRpb3F1aWExETAP\\\\nBgNVBAcTCE1lZGVsbGluMRQwEgYDVQQKEwtCYW5jb2xvbWJpYTEMMAoGA1UECxMD\\\\nSU5UMSYwJAYDVQQDEx1iY29sLWJvdC1jdHIuYmFuY29sb21iaWEuY29ycDCCA0cw\\\\nggI6BgcqhkjOOAQBMIICLQKCAQEAymzoNhfQJXNs9wHt86IQjvBDuAKE88pVhzuq\\\\nox4kMdyh1mbX32plpS56E/CUcBhTraGH8Sl1aROwQW7qc1qJvc4X+ArHdm+LrQX/\\\\nzQKZjCRfr0NQw3XnGjNdLDFc1rDXXgQW2A432AqhLUhqNYbPn38ZXWvrAPIduxH4\\\\nhq8Y86Rj36aNKJJcVGZDX3ml9pXNpC36dnZNQBDQ5yI10ylmjPQLcK1UDCEDvPsT\\\\nMfxz4hQxsck+K3PuE6o/l7AgUfRfGkbSt+Px34DUs3REhG/oMGKqns8IJ+fSOm2o\\\\nuxX3eC71qBihxSB53NNtOM+whGcHD9QOfEraKDKYqQ04T890pQIhANWReXbQXIuH\\\\n2VpmUg/nhu5IPsiMMtX3ygH0LN5QQD5vAoIBAQCAySFs/AXE9x1YSFCV7S/T3hd0\\\\nhYPpe9wU3RT5+81LlmMzdO3WmkfytZw04z8zeaQMC5hVmd+SxD8J5divHXT92M0d\\\\nlCNo8W7bGLp1ag43TTAce97muH8laR9csAvhgAnw3MAcd2Qio3xVMOTna3B9lw86\\\\nOuob0fUKYnFMAEc+Hnbam9BpJ74oHv1GFv4jV5qkVkYj5TnQEzlF5bvFrn4mITFs\\\\nZKiOrg/S7/wyT+Uv8u8ivb9bzZOMRYHD2yGK/8Wl4TTe5g7kw8cK6c/RgoPFQKx0\\\\nS1lkmfhqazq+aH4w8OVmG/G01UdyCybUkoH3WzcqDaLhw5OLlOHsmXEtbnTMA4IB\\\\nBQACggEAVZ8CWjpGpPRDtbSzpr+xwd3NuFVqwyC5/UWiyEXldGks97reNUn3rnvQ\\\\nJcuv/MPwv4pQ8KVAouf8nRTz3aOKcQbk7VAwxs+5MP7Yx2fM69W9yvhXpWZHZmCR\\\\nEKzsNUp6L/aHWLZBZ/HNFfE1MX9OE+hKgeCUyAAlDz+gOOCqKwprdULN1MPw/g81\\\\n0d5PjdBT8RqkmNrcTxwgOK7cI3ocIhU+m9lBTKFs1DMGh40sGeRedz3yN7+YYESp\\\\n0TzOcg1SAMsBgt33JQYATWfn97Z371GYzNS6LumGnsrzZ00PIXySmqqkzGuXX9cB\\\\nhlLik+K7QnB6I/r4kNvBbtQ7YLsdnKOB6DCB5TAdBgNVHQ4EFgQUyBmYk1a5Dmt4\\\\nMOrOQur+nYswhjUwgbUGA1UdIwSBrTCBqoAUyBmYk1a5Dmt4MOrOQur+nYswhjWh\\\\ngYakgYMwgYAxCzAJBgNVBAYTAkNPMRIwEAYDVQQIEwlBbnRpb3F1aWExETAPBgNV\\\\nBAcTCE1lZGVsbGluMRQwEgYDVQQKEwtCYW5jb2xvbWJpYTEMMAoGA1UECxMDSU5U\\\\nMSYwJAYDVQQDEx1iY29sLWJvdC1jdHIuYmFuY29sb21iaWEuY29ycIIJAMJE4wz/\\\\n9fpJMAwGA1UdEwQFMAMBAf8wCwYJYIZIAWUDBAMCA0cAMEQCIDlbbdEFpsGo0L2z\\\\n41G2sEnLn1DvXze2kYFoelfCMLn0AiA54MqSc/hDvd23d7C/oWbrrecPDi7sNbcT\\\\nCTebGAGqmw==\\\\n-----END CERTIFICATE-----",
+              }
+            },
+            "label": "user-provided",
+            "name": "public_cert_controller_bot"
+          }, {
+              "credentials": {
+                "account": "lfrgutie.cloudant.com",
+                "password": "966c25c91926f10b2d7eec7fdbee803ce76754d8",
+                "username": "bithesstwentradiaboughte"
+              },
+            "label": "user-provided",
+            "name": "cloudantBOT"
+          }],
+          "conversation": [{
+            "credentials": {
+              "password": "Tc50WKKngcb0",
+              "url": "https://gateway.watsonplatform.net/conversation/api",
+              "username": "93eb008c-ab4c-457b-bd54-4ededb18c348",
+              }}],
+            "memcachedcloud": [{
+              "credentials": {
+                "password": "gvXNFfpQzd1RsuCV",
+                "servers": "pub-memcache-15568.dal-05.1.sl.garantiadata.com:15568",
+                "username": "831ea06d-0814-4f81-92e4-e6b9e356ee39",
+                }}]
+        }
+    }
+    }
+  ]
+}
