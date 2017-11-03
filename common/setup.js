@@ -4,51 +4,20 @@ Bancolombia 2017
 'use strict';
 
 const Cloudant = require('cloudant'),
-  cfenv = require('cfenv');
+  cfenv = require('cfenv'),
+  DAOCloudant = require('../DAO');
 
-let service = cfenv.getAppEnv().services['user-provided'].find(upsi => upsi.name === 'cloudantBOT');
-let serviceCert = cfenv.getAppEnv().services['user-provided'].find(upsi => upsi.name === 'public_cert_controller_bot');
-
-const dbConfName = 'configuration-sofy';
 const cloudant = Cloudant(service.credentials),
-  configDB = cloudant.db.use(dbConfName),
-  config_certs = cloudant.db.use('certs'),
-  Logger = require('./logging');
+  configDB = cloudant.db.use('configuration-sofy'),
+  config_certs = cloudant.db.use('certs');
 
 const APP_NAME = process.env.APP_NAME;
 
-const logger = new Logger({});
-
 function readConfiguration() {
-    let query = {
-        selector: {
-            docType: {
-                $ne: "messages"
-            }
-        }
-    }
-    return new Promise((fulfill, reject) => {
-        configDB.find(query, (err, data) => {
-            if (err) {
-                logger.error({
-                    err: err
-                }, 'Error in readConfiguration.');
-                return reject(err);
-            }
-            let configuration = {};
-            data.docs.map(doc => {
-                let current = {};
-                Object.assign(current, doc);
-                delete current._id;
-                delete current._rev;
-                delete current.docType;
-                configuration[doc._id] = current;
-            });
-            // Make it available globally
-            global.__configuration = configuration;
-            fulfill();
-        });
-    });
+  const mod = {
+    module:'configuration'
+  }; 
+  return DAOCloudant.callOperation(mod);
 }
 
 function readMessages() {
@@ -119,7 +88,7 @@ function readCert() {
 }
 
 function setup() {
-  return Promise.all([readConfiguration(), readMessages(), readCert()]);
+  return Promise.all([readConfiguration()]);//, readMessages(), readCert()]);
 }
 
 module.exports = setup;

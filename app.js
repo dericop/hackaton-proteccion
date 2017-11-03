@@ -25,17 +25,12 @@ require('./common/setup')().then(() => {
     // json body middleware
     // app.use(bodyParser.json());
 
-    const ctrlJsonParser = bodyParser.json({ verify: common.auth.verifySignatureHttp });
+    //const ctrlJsonParser = bodyParser.json({ verify: common.auth.verifySignatureHttp });
     //const ctrlJsonNotify = bodyParser.json({ verify: common.auth.verifySignatureNotify });
-
-    // serve the files out of ./public as our main files
-    app.use(express.static(__dirname + '/public'));
 
     // mount application routers
     app.use('/message', ctrlJsonParser, routes.routerBot);
-    app.use('/notification', bodyParser.json(), routes.routerNotify);
-    app.use('/', routes.routerTest);
-    app.use('/info', bodyParser.json(), routes.routerInfo);
+    app.use('/status', routes.routerTest);
 
     if (process.env.LOCAL) {
         appEnv.port = 6001;
@@ -45,7 +40,7 @@ require('./common/setup')().then(() => {
     app.listen(appEnv.port, appEnv.bind, function () {
         // print a message when the server starts listening
         if (process.env.LOCAL) {
-            //console.log(`Bot server starting on ${appEnv.bind}:${appEnv.port}`);
+            console.log(`Bot server starting on ${appEnv.bind}:${appEnv.port}`);
         }
         global.__root = process.cwd();
     });
