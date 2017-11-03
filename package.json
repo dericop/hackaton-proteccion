@@ -1,0 +1,10 @@
+{
+  "name": "bot-controller-sofy",
+  "version": "1.0.0",
+  "description": "Bot sofy controller",
+  "main": "app.js",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
