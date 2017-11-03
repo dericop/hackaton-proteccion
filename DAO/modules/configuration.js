@@ -1,13 +1,10 @@
-'use strict'
+'use strict';
+
 let config = null;
 
 const getConfiguration = () => {
-  if(config) {
-    return new Promise.resolve(config);
-  } else {
-    return new Promise.reject(new Error('Error, no fue posible obtener la configuración desde la BD'));
-  }
-}
+  return config;
+};
 
 const _getConfigurationDB = (obj) => {
   const DB = obj.cloudant.db.use('configuration-sofy');
@@ -18,7 +15,7 @@ const _getConfigurationDB = (obj) => {
             $ne: "messages"
         }
     }
-  }
+  };
   return new Promise((fulfill, reject) => {
     DB.find(query, (err, data) => {
         if (err) {
@@ -40,17 +37,17 @@ const _getConfigurationDB = (obj) => {
         fulfill();
     });
   });
-}
+};
 
 const setConfiguration = (configObj) => {
   config = configObj;
-}
+};
 
 const init = (obj) => {
   return _getConfigurationDB(obj);
-}
+};
 
 module.exports = {
   getConfiguration,
   init,
-}
+};
