@@ -27,7 +27,7 @@ class Logger {
           this.messageId = metadata.messageId;
           this.uid = metadata.senderId;
           this.source = metadata.source;
-          this.destination = metadata.destination
+          this.destination = metadata.destination;
       }
   }
 
@@ -60,7 +60,7 @@ class LogRecord {
               type: type || 'info',
               detail: ''
           }
-      }
+      };
       this.data = {};
   }
 

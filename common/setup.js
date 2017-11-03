@@ -7,8 +7,10 @@ const Cloudant = require('cloudant'),
   cfenv = require('cfenv'),
   DAOCloudant = require('../DAO');
 
+let service = cfenv.getAppEnv().services['user-provided'].find(upsi => upsi.name === 'cloudantBOT');
+let serviceCert = cfenv.getAppEnv().services['user-provided'].find(upsi => upsi.name === 'public_cert_controller_bot');
+
 const cloudant = Cloudant(service.credentials),
-  configDB = cloudant.db.use('configuration-sofy'),
   config_certs = cloudant.db.use('certs');
 
 function readConfiguration() {

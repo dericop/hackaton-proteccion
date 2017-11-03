@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
 const Cloudant = require('cloudant'),
-  cfenv = require('cfenv')
+  cfenv = require('cfenv'),
   Logger = require('../common/logging');
 
 let service = cfenv.getAppEnv().services['user-provided'].find(upsi => upsi.name === 'cloudantBOT');
@@ -16,8 +16,8 @@ const callOperation = (obj) => {
     logger
   };
   return require(`./modules/${obj.module}`).init(cloud);
-}
+};
 
 module.exports = {
   callOperation,
-}
+};
