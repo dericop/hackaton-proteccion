@@ -3,8 +3,7 @@ Bancolombia 2017
  */
 'use strict';
 
-const Cloudant = require('cloudant'),
-  cfenv = require('cfenv'),
+const cfenv = require('cfenv'),
   DAOCloudant = require('../DAO');
 
 function readConfiguration() {

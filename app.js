@@ -36,15 +36,15 @@ require('./common/setup')().then(() => {
     
   app.use(log); //Middleware Logging
   // json body middleware
-  // app.use(bodyParser.json());
+  app.use(bodyParser.json());
 
   //const ctrlJsonParser = bodyParser.json({ verify: common.auth.verifySignatureHttp });
   //const ctrlJsonNotify = bodyParser.json({ verify: common.auth.verifySignatureNotify });
 
   // mount application routers
   // app.use('/message', ctrlJsonParser, routes.routerBot);
-  app.use('/message', routes.routerBot);
-  app.use('/status', routes.routerStatus);
+  app.use('/api/messages', routes.routerBot);
+  app.use('/api/status', routes.routerStatus);
 
   if (process.env.LOCAL) {
       appEnv.port = 6001;

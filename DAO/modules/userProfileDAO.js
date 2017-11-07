@@ -1,21 +1,8 @@
-/*
-Bancolombia 2017
-
-User profile data access...
-
- */
 'use strict';
-
-const Cloudant = require('cloudant'),
-    cfenv = require('cfenv'),
-    logging = require('./logging');
-
+const logging = require('../../common/logging');
 const logger = (psuid) => new logging({ senderId: psuid });
 
-let service = cfenv.getAppEnv().services['user-provided'].find(upsi => upsi.name === 'cloudantBOT');
-
-const cloudant = Cloudant(service.credentials),
-    profiles = cloudant.db.use('profiles');
+let profiles = null;
 
 class userProfile {
     constructor(psuid) {
@@ -43,7 +30,7 @@ function recordByPSUID(psuid) {
             }
             fulfill(data);
         });
-    })
+    });
 }
 
 function insertRecord(psuid, data) {
@@ -62,7 +49,7 @@ function insertRecord(psuid, data) {
             }
             fulfill(data);
         });
-    })
+    });
 }
 
 function updateConflict(data) {
@@ -80,8 +67,8 @@ function updateConflict(data) {
                     return reject(err);
                 }
                 fulfill(result);
-            })
-        })
+            });
+        });
     });
 }
 
@@ -121,7 +108,7 @@ function validateUniqueIdentification(idtype, idnum) {
     return new Promise((fulfill, reject) => {
         let query = {
             selector: { idtype: idtype, idnum: idnum }
-        }
+        };
         profiles.find(query, (err, result) => {
             if (err) {
                 logger().error({ err: err }, 'Error in validateUniqueIdentification.');
@@ -178,8 +165,14 @@ function getUserFirstName(psuid) {
     return userAttribute(psuid, 'name');
 }
 
+const init = (obj) => {
+    profiles = obj.cloudant.db.use('profiles-sofy');
+    return Promise.resolve();
+};
+
 module.exports = {
     getUser: getUser,
+    init,
     putUser: putUser,
     userAttribute: userAttribute,
     getUserFirstName: getUserFirstName,

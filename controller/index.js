@@ -66,7 +66,7 @@ function messageReceived(message) {
                 if (message.text) {
                     message.text = message.text.replace(/[\n\r]/g, ' ');
 
-                    if (message.text.length <= config.conversation.TEXT_MAX_LENGTH) {
+                    if (message.text.length <= config.conversation.parameters.TEXT_MAX_LENGTH) {
                         conversation.message(message, context).then(output => {
 
                             let topic = staticTopic,
@@ -122,7 +122,6 @@ function messageReceived(message) {
     }
 }
 
-/*
 function sendNotification(message) {
     const logger = new common.logging({
         messageId: message.messageId,
@@ -167,7 +166,7 @@ function sendNotification(message) {
         logger.error({ err: err }, 'ERROR_FB_CTR » sendNotification');
     }
 }
-*/
+
 
 module.exports = {
     messageReceived: messageReceived,

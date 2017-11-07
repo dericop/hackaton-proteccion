@@ -152,7 +152,7 @@ module.exports = class DialogScript {
                 return ctx => {
                     ctx.reply = textReply;
                     return Promise.resolve(ctx);
-                }
+                };
             });
         }
         // If there is no text to send, reply with the main menu
@@ -160,17 +160,17 @@ module.exports = class DialogScript {
         return ctx => {
             ctx.reply = menu;
             return Promise.resolve(ctx);
-        }
+        };
     }
 
     extraDialog(topic) {
-        return customRequire.call(this, 'extra', topic)
+        return customRequire.call(this, 'extra', topic);
     };
     actionHandler(action) {
-        return customRequire.call(this, 'actions', action.href)
+        return customRequire.call(this, 'actions', action.href);
     };
     controlHandler(control) {
-        return customRequire.call(this, 'replies', control.type)
+        return customRequire.call(this, 'replies', control.type);
     };
 
 
@@ -215,7 +215,7 @@ module.exports = class DialogScript {
                     const controls = message.controls;
                     delete message.controls;
                     controls.map(control => {
-                        const tmp = { controls: control }
+                        const tmp = { controls: control };
                         Object.assign(tmp, message);
                         return tasks.push(this.controlHandler(control)(tmp));
                     });

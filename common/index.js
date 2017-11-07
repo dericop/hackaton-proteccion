@@ -4,9 +4,10 @@ Bancolombia 2017
 'use strict';
 const config = global.__configuration,
     commonMessages = global.__messages.common,
+    DAOCloudant = require('../DAO'),
     CONSTANTS = require('./constants');
 
-const userProfile = require('./userProfileDAO'),
+const userProfile = require('../DAO/modules/userProfileDAO'),
     _ = require('lodash'),
     cert = require('../common/cert').cert;
 
@@ -14,6 +15,12 @@ const userProfile = require('./userProfileDAO'),
 _.templateSettings = {
     interpolate: /\{(\w+?)\}/g
 };
+
+//Set profileDAO obj
+const mod = {
+    module:'userProfileDAO'
+}; 
+DAOCloudant.callOperation(mod);
 
 function validateConsumer(consumerId) {
     let consumerApp = config.frontend.frontend.filter(c => c.consumerId === consumerId)[0];
@@ -73,6 +80,7 @@ module.exports = {
     // mappings: require('./mappings'),
     messages: commonMessages,
     controls: require('./controls'),
+    dialog: require('./dialog'),
     userProfile: userProfile,
     /**
      * Logging facilities... 
