@@ -8,6 +8,7 @@ const config = require('../DAO/modules/configuration').getConfiguration(),
     helpMsg = global.__messages.help;
 
 const APP_NAME = process.env.APP_NAME;
+let bot = null;
 
 const conversation = require('../lib/luis_sdk/main'),
     common = require('../common'),
@@ -25,6 +26,70 @@ function saveContext(ctxKey) {
             this,
             config.parameters.defaults.sessionTimeout);
     };
+}
+
+function _setDialogs() {
+    bot.dialog('SearchHotels', [
+        function (session, args, next) {
+            session.send('Welcome to the Hotels finder! We are analyzing your message: \'%s\'', session.message.text);
+      
+            // try extracting entities
+            var cityEntity = builder.EntityRecognizer.findEntity(args.intent.entities, 'builtin.geography.city');
+            var airportEntity = builder.EntityRecognizer.findEntity(args.intent.entities, 'AirportCode');
+            if (cityEntity) {
+                // city entity detected, continue to next step
+                session.dialogData.searchType = 'city';
+                next({ response: cityEntity.entity });
+            } else if (airportEntity) {
+                // airport entity detected, continue to next step
+                session.dialogData.searchType = 'airport';
+                next({ response: airportEntity.entity });
+            } else {
+                // no entities detected, ask user for a destination
+                builder.Prompts.text(session, 'Please enter your destination');
+            }
+        },
+        function (session, results) {
+            var destination = results.response;
+      
+            var message = 'Looking for hotels';
+            if (session.dialogData.searchType === 'airport') {
+                message += ' near %s airport...';
+            } else {
+                message += ' in %s...';
+            }
+      
+            session.send(message, destination);
+      
+            // Async search
+            Store
+                .searchHotels(destination)
+                .then(function (hotels) {
+                    // args
+                    session.send('I found %d hotels:', hotels.length);
+      
+                    var message = new builder.Message()
+                        .attachmentLayout(builder.AttachmentLayout.carousel)
+                        .attachments(hotels.map(hotelAsAttachment));
+      
+                    session.send(message);
+      
+                    // End
+                    session.endDialog();
+                });
+        }
+      ]).triggerAction({
+        matches: 'SearchHotels',
+        onInterrupted: function (session) {
+            session.send('Please provide a destination');
+        }
+      });
+      
+    bot.dialog('Ayuda', function (session) {
+        session.endDialog('Hi! Try asking me things like \'search hotels in Seattle\', \'search hotels near LAX airport\' or \'show me the reviews of The Bot Resort\'');
+    }).triggerAction({
+        matches: 'ayudar'
+    });
 }
 
 function messageReceived(message) {
@@ -131,44 +196,18 @@ function sendNotification(message) {
     });
     try {
         logger.info({ message: message }, 'Send message to front-end');
-
-        let url = common.frontEndEndpoint(message.target);
-
-        // A flag to specify the message origin
-        if (message.metadata) {
-            message.metadata.producer = config.parameters.defaults.botName;
-        }
-
-        let signature = cert.getSignature(message);
-
-        if (signature) {
-            if (url) {
-                return request({
-                    uri: url,
-                    headers: {
-                        'x-consumer-id': config.parameters.BOTController.token,
-                        'x-ctr-signature': signature
-                    },
-                    json: true,
-                    method: 'POST',
-                    body: message
-                }).catch(err => {
-                    logger.error({ err: err }, 'Error sending message to front-end controller')
-                    return Promise.reject();
-                });
-            } else {
-                return Promise.reject('Missing URL');
-            }
-        } else {
-            return Promise.reject('Missing signature');
-        }
     } catch (err) {
         logger.error({ err: err }, 'ERROR_FB_CTR » sendNotification');
     }
 }
 
+const init = (obj) => {
+    bot = obj.bot;
+    _setDialogs();
+};
 
 module.exports = {
     messageReceived: messageReceived,
+    init,
     //sendNotification: sendNotification,
 };
