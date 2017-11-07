@@ -34,6 +34,7 @@ const _getConfigurationDB = (obj) => {
             config[doc._id] = current;
         });
         setConfiguration(config);
+        global.__configuration = config;
         fulfill();
     });
   });

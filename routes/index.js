@@ -5,12 +5,12 @@ Bancolombia 2017
 'use strict';
 
 const express = require('express'),
-  common = require('../common'),
-  routerModules = require('./modules'),
+  logging = require('../common/logging'),
+  timestamp = require('../common/time'),
   bot_controller = require('../controller');
 
 // Logger
-const logger = new common.logging({});
+const logger = new logging({});
 
 const routerBot = express.Router();
 
@@ -36,12 +36,12 @@ const routerStatus = express.Router();
 
 routerStatus.get('/', function (req, res) {
   const data = {
-    time: common.time.getDateWithTimeZone(),
+    time: timestamp.getDateWithTimeZone(),
   };
   res.status(200).json(data);
 });
 
 module.exports = {
   routerBot: routerBot,
-  routerTest: routerStatus,
+  routerStatus: routerStatus,
 };

@@ -12,11 +12,11 @@ require('./common/setup')().then(() => {
       cfenv = require('cfenv'),
       helmet = require('helmet'),
       routes = require('./routes'),
-      common = require('./common');
+      logging = require('./common/logging');
 
   // Autoscaling agent...
   !process.env.LOCAL && require('bluemix-autoscaling-agent');
-  const logger = new common.logging({});
+  const logger = new logging({});
   // create a new express server and get the app environment from Cloud Foundry
   const app = express(),
       appEnv = cfenv.getAppEnv();
@@ -42,8 +42,9 @@ require('./common/setup')().then(() => {
   //const ctrlJsonNotify = bodyParser.json({ verify: common.auth.verifySignatureNotify });
 
   // mount application routers
-  app.use('/message', ctrlJsonParser, routes.routerBot);
-  app.use('/status', routes.routerTest);
+  // app.use('/message', ctrlJsonParser, routes.routerBot);
+  app.use('/message', routes.routerBot);
+  app.use('/status', routes.routerStatus);
 
   if (process.env.LOCAL) {
       appEnv.port = 6001;
