@@ -1,13 +1,32 @@
 'use strict';
+const _ = require('lodash'),
+  config = global.__configuration,
+  greeMsg = global.__messages.greetings;
+let builder = null;
+
+const saludo = (session, args, next) => {
+  let name = null;
+  if(session.userData.user) {
+    name = session.userData.user.name;
+  }
+  let message = (name) ? greeMsg.messages.GREETINGS_NAME : greeMsg.messages.GREETINGS_NO_NAME;
+  let startText = _.template(message)({ userName: name, botName: config.parameters.defaults.botName });
+  //builder.Prompts.text(session, startText);
+  session.send(startText);
+  session.endDialog();
+};
 
 const init = (obj) => {
   const bot = obj.bot;
-  const builder = obj.builder;
-  bot.dialog('Saludo', function (session) {
-    session.send('Hola, te puedo ayudar con');
-    builder.Prompts.text(session, 'Please enter your destination');
-  }).triggerAction({
-      matches: 'saludar'
+  builder = obj.builder;
+  bot.dialog('Saludo', [
+    saludo,
+    (session, args, next) => {
+      console.log('test');
+    }
+  ]).triggerAction({
+      matches: 'saludar',
+      intentThreshold: 0.84      
   });
 };
 

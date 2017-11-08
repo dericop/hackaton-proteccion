@@ -27,16 +27,16 @@ require('./common/setup')().then(() => {
     try {
       logger.info({ headers: req.headers, body: req.body }, 'Message received - BOT-CTR');
       req.body.source = req.headers.source;
-      next();
     } catch (err) {
       logger.error({ req: req }, 'Error routerBot.use middleware');
     }
     next();
   };
-    
-  app.use(log); //Middleware Logging
+
   // json body middleware
   app.use(bodyParser.json());
+  app.use(log); //Middleware Logging
+
 
   //const ctrlJsonParser = bodyParser.json({ verify: common.auth.verifySignatureHttp });
   //const ctrlJsonNotify = bodyParser.json({ verify: common.auth.verifySignatureNotify });
@@ -45,6 +45,7 @@ require('./common/setup')().then(() => {
   // app.use('/message', ctrlJsonParser, routes.routerBot);
   app.use('/api/messages', routes.routerBot);
   app.use('/api/status', routes.routerStatus);
+  app.use(express.static('public'));
 
   if (process.env.LOCAL) {
       appEnv.port = 6001;
