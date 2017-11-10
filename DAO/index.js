@@ -1,13 +1,14 @@
 'use strict';
 
 const Cloudant = require('cloudant'),
-  cfenv = require('cfenv'),
   Logger = require('../common/logging');
 
-let service = cfenv.getAppEnv().services['user-provided'].find(upsi => upsi.name === 'cloudantBOT');
-let serviceCert = cfenv.getAppEnv().services['user-provided'].find(upsi => upsi.name === 'public_cert_controller_bot');
+const password = process.env.cloudant_password;
+const user = process.env.cloudant_user;
+const cloudant_account = process.env.cloudant_account;;
 
-const cloudant = Cloudant(service.credentials);
+
+const cloudant = Cloudant({account:cloudant_account,username:user, password:password});
 const logger = new Logger({});
 
 const callOperation = (obj) => {

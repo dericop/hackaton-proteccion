@@ -35,6 +35,9 @@ const _getConfigurationDB = (obj) => {
         });
         setConfiguration(config);
         global.__configuration = config;
+        if (process.env.LOCAL) {
+          global.__configuration.parameters.BOTController.endpoint = "http://127.0.0.1:6001";
+        }
         fulfill();
     });
   });

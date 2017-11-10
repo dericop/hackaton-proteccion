@@ -28,7 +28,7 @@ function readCert() {
 }
 
 function setup() {
-  return Promise.all([readConfiguration(), readMessages(), readCert()]);
+  return Promise.all([readConfiguration(), readMessages()]);//, readCert()]);
 }
 
 module.exports = setup;

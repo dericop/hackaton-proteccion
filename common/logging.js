@@ -2,14 +2,17 @@
 Bancolombia 2017
  */
 const time = require('../common/time'),
-Cloudant = require('cloudant'),
-cfenv = require('cfenv');
+Cloudant = require('cloudant');
 
 const stringify = require('json-stringify-safe');
 
-const service = cfenv.getAppEnv().services['user-provided'].find(upsi => upsi.name === 'cloudantBOT');
-const cloudant = Cloudant(service.credentials),
-logsDb = cloudant.db.use('logs-sofy');
+const password = process.env.cloudant_password;
+const user = process.env.cloudant_user;
+const cloudant_account = process.env.cloudant_account;;
+
+
+const cloudant = Cloudant({account:cloudant_account,username:user, password:password})
+    logsDb = cloudant.db.use('logs-sofy');
 
 function storeRecord(messageId, source, destination, uid, obj, detail, type) {
   const record = new LogRecord(messageId, source, destination, type);

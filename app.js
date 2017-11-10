@@ -53,9 +53,7 @@ require('./common/setup')().then(() => {
   // start server on the specified port and binding host
   app.listen(appEnv.port, appEnv.bind, function () {
     // print a message when the server starts listening
-    if (process.env.LOCAL) {
-        console.log(`Bot server starting on ${appEnv.bind}:${appEnv.port}`);
-    }
+      console.log(`Bot server starting on ${appEnv.bind}:${appEnv.port}`);
     global.__root = process.cwd();
   });
 }).catch(err => {

@@ -4,7 +4,29 @@ const _ = require('lodash'),
   greeMsg = global.__messages.greetings;
 let builder = null;
 
-const saludo = (session, args, next) => {
+const getFirstName = (name) => {
+  return name.split(' ')[0];
+};
+
+const verifyName = (session, args, next) => {
+  //session.send('Hola =)');
+  if(!session.userData.user) {
+    session.userData.user = {};
+  }
+  session.send(JSON.stringify(session.message.user));
+  if(!session.userData.user.name) {
+    if(session.message.user.name) {
+      session.userData.user.name = getFirstName(session.message.user.name);
+      next();
+    } else {
+      session.beginDialog('getName');
+    }
+  } else {
+    next();
+  }
+};
+
+const toGreet = (session, args, next) => {
   let name = null;
   if(session.userData.user) {
     name = session.userData.user.name;
@@ -20,10 +42,8 @@ const init = (obj) => {
   const bot = obj.bot;
   builder = obj.builder;
   bot.dialog('Saludo', [
-    saludo,
-    (session, args, next) => {
-      console.log('test');
-    }
+    verifyName,
+    toGreet
   ]).triggerAction({
       matches: 'saludar',
       intentThreshold: 0.84      

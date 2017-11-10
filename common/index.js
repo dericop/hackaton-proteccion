@@ -6,8 +6,7 @@ const config = global.__configuration,
     DAOCloudant = require('../DAO');
 
 const userProfile = require('../DAO/modules/userProfileDAO'),
-    _ = require('lodash'),
-    cert = require('../common/cert').cert;
+    _ = require('lodash');
 
 _.templateSettings = {
     interpolate: /\{(\w+?)\}/g
